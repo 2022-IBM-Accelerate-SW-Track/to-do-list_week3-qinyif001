@@ -55,7 +55,21 @@ test('test that App component doesn\'t add a task without due date', () => {
   expect(check).toBeInTheDocument();
  });	
 
-
+ test('test that App component renders different colors for past due events', () => {
+  render(<App />);
+ const inputTask = screen.getByRole('textbox', {name: /Add New Item/i})
+ const inputDate = screen.getByPlaceholderText("mm/dd/yyyy")
+ const element = screen.getByRole('button', {name: /Add/i}) ;
+  fireEvent.change(inputTask, { target: { value: "History Test"}})
+  fireEvent.change(inputDate, { target: { value: "05/30/2023"}})
+   fireEvent.click(element)
+   fireEvent.change(inputTask, { target: { value: "Math Test"}})
+   fireEvent.change(inputDate, { target: { value: "05/30/2021"}})
+   fireEvent.click(element)
+   const historyCheck = screen.getByTestId(/History Test/i).style.background
+   const mathCheck = screen.getByTestId(/Math Test/i).style.background
+   expect(mathCheck == historyCheck).toBe(false);
+  });
 
 
  test('test that App component can be deleted thru checkbox', () => {
@@ -74,19 +88,5 @@ test('test that App component doesn\'t add a task without due date', () => {
 
 
 
- test('test that App component renders different colors for past due events', () => {
-  render(<App />);
- const inputTask = screen.getByRole('textbox', {name: /Add New Item/i})
- const inputDate = screen.getByPlaceholderText("mm/dd/yyyy")
- const element = screen.getByRole('button', {name: /Add/i}) ;
-  fireEvent.change(inputTask, { target: { value: "History Test"}})
-  fireEvent.change(inputDate, { target: { value: "05/30/2023"}})
-   fireEvent.click(element)
-   fireEvent.change(inputTask, { target: { value: "Math Test"}})
-   fireEvent.change(inputDate, { target: { value: "05/30/2021"}})
-   fireEvent.click(element)
-   const historyCheck = screen.getByTestId(/History Test/i).style.background
-   const mathCheck = screen.getByTestId(/Math Test/i).style.background
-   expect(mathCheck == historyCheck).toBe(false);
-  });
+ 
  
