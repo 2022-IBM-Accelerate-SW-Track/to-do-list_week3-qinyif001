@@ -37,7 +37,7 @@ class AddTodo extends Component {
       this.setState({
         content: "",
         date: "",
-        due: null,
+        due: null
       });
     }
   };
